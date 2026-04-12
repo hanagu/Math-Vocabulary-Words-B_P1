@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Vocabulary Flashcards</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React & ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // SVG Icons
+    const VolumeIcon = () => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>
+    );
+    const ArrowLeft = () => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    );
+    const ArrowRight = () => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    );
+    const CircleIcon = () => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+      </svg>
+    );
+    const XIcon = () => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    );
+
+    // Math Vocabulary Data (Lowercased, deduplicated, and enriched)
+    const vocabData = [
+      // Measurement & Data
+      { word: "line plot", phonetic: "/laɪn plɒt/", kr: "선 그래프(점 도표)", cn: "线图 (xiàn tú)", jp: "線グラフ (せんぐらふ)", ex: "A <b>line plot</b> uses X's to show data on a number line." },
+      { word: "customary system", phonetic: "/ˈkʌstəməri ˈsɪstəm/", kr: "야드파운드법(미국 단위계)", cn: "美制单位 (měi zhì dān wèi)", jp: "ヤード・ポンド法 (やーど・ぽんどほう)", ex: "The <b>customary system</b> uses inches and pounds." },
+      { word: "metric system", phonetic: "/ˈmɛtrɪk ˈsɪstəm/", kr: "미터법", cn: "公制 (gōng zhì)", jp: "メートル法 (めーとるほう)", ex: "The <b>metric system</b> uses meters and grams." },
+      { word: "inch", phonetic: "/ɪntʃ/", kr: "인치", cn: "英寸 (yīng cùn)", jp: "インチ (いんち)", ex: "My thumb is about one <b>inch</b> long." },
+      { word: "foot", phonetic: "/fʊt/", kr: "피트", cn: "英尺 (yīng chǐ)", jp: "フィート (ふぃーと)", ex: "A ruler is one <b>foot</b> long." },
+      { word: "yard", phonetic: "/jɑːrd/", kr: "야드", cn: "码 (mǎ)", jp: "ヤード (やーど)", ex: "Three feet make one <b>yard</b>." },
+      { word: "ounce", phonetic: "/aʊns/", kr: "온스", cn: "盎司 (àng sī)", jp: "オンス (おんす)", ex: "A strawberry weighs about one <b>ounce</b>." },
+      { word: "pound", phonetic: "/paʊnd/", kr: "파운드", cn: "磅 (bàng)", jp: "ポンド (ぽんど)", ex: "A loaf of bread is about one <b>pound</b>." },
+      { word: "cup", phonetic: "/kʌp/", kr: "컵", cn: "杯 (bēi)", jp: "カップ (かっぷ)", ex: "I need one <b>cup</b> of milk for the cake." },
+      { word: "pint", phonetic: "/paɪnt/", kr: "파인트", cn: "品脱 (pǐn tuō)", jp: "パイント (ぱいんと)", ex: "A large glass holds about a <b>pint</b> of water." },
+      { word: "quart", phonetic: "/kwɔːrt/", kr: "쿼트", cn: "夸脱 (kuā tuō)", jp: "クォート (くぉーと)", ex: "Four cups make one <b>quart</b>." },
+      { word: "gallon", phonetic: "/ˈɡælən/", kr: "갤런", cn: "加仑 (jiā lún)", jp: "ガロン (がろん)", ex: "We bought a <b>gallon</b> of juice for the party." },
+      { word: "hour", phonetic: "/ˈaʊər/", kr: "시간", cn: "小时 (xiǎo shí)", jp: "時間 (じかん)", ex: "One <b>hour</b> has 60 minutes." },
+      { word: "minute", phonetic: "/ˈmɪnɪt/", kr: "분", cn: "分钟 (fēn zhōng)", jp: "分 (ふん)", ex: "I will be ready in one <b>minute</b>." },
+      { word: "second", phonetic: "/ˈsɛkənd/", kr: "초", cn: "秒 (miǎo)", jp: "秒 (びょう)", ex: "A <b>second</b> is a very short time." },
+      { word: "interval", phonetic: "/ˈɪntərvəl/", kr: "간격", cn: "间隔 (jiān gé)", jp: "間隔 (かんかく)", ex: "The bells ring at a five-minute <b>interval</b>." },
+      { word: "mile", phonetic: "/maɪl/", kr: "마일", cn: "英里 (yīng lǐ)", jp: "マイル (まいる)", ex: "We walked one <b>mile</b> to the park." },
+      { word: "millimeter", phonetic: "/ˈmɪlɪˌmiːtər/", kr: "밀리미터", cn: "毫米 (háo mǐ)", jp: "ミリメートル (みりめーとる)", ex: "An ant is a few <b>millimeter</b>s long." },
+      { word: "bar graph", phonetic: "/bɑːr ɡræf/", kr: "막대그래프", cn: "条形图 (tiáo xíng tú)", jp: "棒グラフ (ぼうぐらふ)", ex: "A <b>bar graph</b> uses thick blocks to show data." },
+      { word: "pie chart", phonetic: "/paɪ tʃɑːrt/", kr: "원그래프", cn: "饼图 (bǐng tú)", jp: "円グラフ (えんぐらふ)", ex: "A <b>pie chart</b> looks like a round pizza." },
+      { word: "line graph", phonetic: "/laɪn ɡræf/", kr: "꺾은선그래프", cn: "折线图 (zhé xiàn tú)", jp: "折れ線グラフ (おれせんぐらふ)", ex: "A <b>line graph</b> shows how things change over time." },
+      { word: "mean", phonetic: "/miːn/", kr: "평균", cn: "平均数 (píng jūn shù)", jp: "平均 (へいきん)", ex: "The <b>mean</b> is the average of the numbers." },
+      { word: "median", phonetic: "/ˈmiːdiən/", kr: "중앙값", cn: "中位数 (zhōng wèi shù)", jp: "中央値 (ちゅうおうあたい)", ex: "The <b>median</b> is the middle number in a line." },
+      { word: "mode", phonetic: "/moʊd/", kr: "최빈값", cn: "众数 (zhòng shù)", jp: "最頻値 (さいひんち)", ex: "The <b>mode</b> is the number that appears the most." },
+      { word: "range", phonetic: "/reɪndʒ/", kr: "범위", cn: "范围 (fàn wéi)", jp: "範囲 (はんい)", ex: "The <b>range</b> is the difference between the biggest and smallest numbers." },
+
+      // Geometry & Spatial Sense
+      { word: "figure", phonetic: "/ˈfɪɡjər/", kr: "도형", cn: "图形 (tú xíng)", jp: "図形 (ずけい)", ex: "A square is a 2D <b>figure</b>." },
+      { word: "line", phonetic: "/laɪn/", kr: "선, 직선", cn: "线 (xiàn)", jp: "線 (せん)", ex: "A <b>line</b> goes on forever in both directions." },
+      { word: "intersecting lines", phonetic: "/ˌɪntərˈsɛktɪŋ laɪnz/", kr: "교차선", cn: "相交线 (xiāng jiāo xiàn)", jp: "交線 (こうせん)", ex: "An 'X' is made of <b>intersecting lines</b>." },
+      { word: "collinear", phonetic: "/koʊˈlɪniər/", kr: "동일 직선 상의", cn: "共线 (gòng xiàn)", jp: "共線 (きょうせん)", ex: "Points on the same line are <b>collinear</b>." },
+      { word: "angle", phonetic: "/ˈæŋɡəl/", kr: "각도", cn: "角 (jiǎo)", jp: "角 (かく)", ex: "An <b>angle</b> is made when two lines meet." },
+      { word: "degree", phonetic: "/dɪˈɡriː/", kr: "도 (각도 단위)", cn: "度 (dù)", jp: "度 (ど)", ex: "A full circle is 360 <b>degree</b>s." },
+      { word: "degree measure", phonetic: "/dɪˈɡriː ˈmɛʒər/", kr: "각도 크기", cn: "角度测量 (jiǎo dù cè liáng)", jp: "角度 (かくど)", ex: "The <b>degree measure</b> tells us how wide the angle is." },
+      { word: "acute angle", phonetic: "/əˈkjuːt ˈæŋɡəl/", kr: "예각", cn: "锐角 (ruì jiǎo)", jp: "鋭角 (えいかく)", ex: "An <b>acute angle</b> is smaller than a right angle." },
+      { word: "adjacent angle", phonetic: "/əˈdʒeɪsənt ˈæŋɡəl/", kr: "인접각", cn: "相邻角 (xiāng lín jiǎo)", jp: "隣接角 (りんせつかく)", ex: "<b>Adjacent angle</b>s share the same side." },
+      { word: "complementary angles", phonetic: "/ˌkɒmplɪˈmɛntəri ˈæŋɡəlz/", kr: "여각", cn: "互余角 (hù yú jiǎo)", jp: "余角 (よかく)", ex: "<b>Complementary angles</b> add up to 90 degrees." },
+      { word: "interior angle", phonetic: "/ɪnˈtɪəriər ˈæŋɡəl/", kr: "내각", cn: "内角 (nèi jiǎo)", jp: "内角 (ないかく)", ex: "An <b>interior angle</b> is inside a shape." },
+      { word: "acute triangle", phonetic: "/əˈkjuːt ˈtraɪæŋɡəl/", kr: "예각 삼각형", cn: "锐角三角形 (ruì jiǎo sān jiǎo xíng)", jp: "鋭角三角形 (えいかくさんかくけい)", ex: "An <b>acute triangle</b> has three small angles." },
+      { word: "equilateral triangle", phonetic: "/ˌiːkwɪˈlætərəl ˈtraɪæŋɡəl/", kr: "정삼각형", cn: "等边三角形 (děng biān sān jiǎo xíng)", jp: "正三角形 (せいさんかくけい)", ex: "An <b>equilateral triangle</b> has three equal sides." },
+      { word: "isosceles triangle", phonetic: "/aɪˈsɒsɪliːz ˈtraɪæŋɡəl/", kr: "이등변 삼각형", cn: "等腰三角形 (děng yāo sān jiǎo xíng)", jp: "二等辺三角形 (にとうへんさんかくけい)", ex: "An <b>isosceles triangle</b> has two equal sides." },
+      { word: "diagonal", phonetic: "/daɪˈæɡənl/", kr: "대각선", cn: "对角线 (duì jiǎo xiàn)", jp: "対角線 (たいかくせん)", ex: "A <b>diagonal</b> line goes from one corner to another." },
+      { word: "arc", phonetic: "/ɑːrk/", kr: "호", cn: "弧 (hú)", jp: "弧 (こ)", ex: "An <b>arc</b> is a curved part of a circle." },
+      { word: "arc length", phonetic: "/ɑːrk lɛŋθ/", kr: "호의 길이", cn: "弧长 (hú cháng)", jp: "弧の長さ (このながさ)", ex: "You can measure the <b>arc length</b> with a string." },
+      { word: "perimeter", phonetic: "/pəˈrɪmɪtər/", kr: "둘레", cn: "周长 (zhōu cháng)", jp: "周長 (しゅうちょう)", ex: "The <b>perimeter</b> is the total length around a shape." },
+      { word: "area", phonetic: "/ˈɛəriə/", kr: "넓이", cn: "面积 (miàn jī)", jp: "面積 (めんせき)", ex: "The <b>area</b> is the space inside a shape." },
+      { word: "point", phonetic: "/pɔɪnt/", kr: "점", cn: "点 (diǎn)", jp: "点 (てん)", ex: "A <b>point</b> is an exact spot in space." },
+      { word: "line segment", phonetic: "/laɪn ˈsɛɡmənt/", kr: "선분", cn: "线段 (xiàn duàn)", jp: "線分 (せんぶん)", ex: "A <b>line segment</b> has a beginning and an end." },
+      { word: "ray", phonetic: "/reɪ/", kr: "반직선", cn: "射线 (shè xiàn)", jp: "半直線 (はんちょくせん)", ex: "A <b>ray</b> starts at a point and goes on forever." },
+      { word: "parallel", phonetic: "/ˈpærəlɛl/", kr: "평행한", cn: "平行 (píng xíng)", jp: "平行 (へいこう)", ex: "<b>Parallel</b> lines never touch each other." },
+      { word: "perpendicular", phonetic: "/ˌpɜːrpənˈdɪkjʊlər/", kr: "수직의", cn: "垂直 (chuí zhí)", jp: "垂直 (すいちょく)", ex: "<b>Perpendicular</b> lines make a perfect cross." },
+      { word: "vertex", phonetic: "/ˈvɜːrtɛks/", kr: "꼭짓점", cn: "顶点 (dǐng diǎn)", jp: "頂点 (ちょうてん)", ex: "A <b>vertex</b> is the corner of a shape." },
+      { word: "right angle", phonetic: "/raɪt ˈæŋɡəl/", kr: "직각", cn: "直角 (zhí jiǎo)", jp: "直角 (ちょっかく)", ex: "A <b>right angle</b> looks like the corner of a square." },
+      { word: "obtuse angle", phonetic: "/əbˈtjuːs ˈæŋɡəl/", kr: "둔각", cn: "钝角 (dùn jiǎo)", jp: "鈍角 (どんかく)", ex: "An <b>obtuse angle</b> is wider than a right angle." },
+      { word: "straight angle", phonetic: "/streɪt ˈæŋɡəl/", kr: "평각", cn: "平角 (píng jiǎo)", jp: "平角 (へいかく)", ex: "A <b>straight angle</b> makes a perfectly flat line." },
+      { word: "vertical angles", phonetic: "/ˈvɜːrtɪkəl ˈæŋɡəlz/", kr: "맞꼭지각", cn: "对顶角 (duì dǐng jiǎo)", jp: "対頂角 (たいちょうかく)", ex: "<b>Vertical angles</b> are across from each other." },
+      { word: "supplementary angles", phonetic: "/ˌsʌplɪˈmɛntəri ˈæŋɡəlz/", kr: "보각", cn: "互补角 (hù bǔ jiǎo)", jp: "補角 (ほかく)", ex: "<b>Supplementary angles</b> add up to 180 degrees." },
+      { word: "polygon", phonetic: "/ˈpɒlɪɡɒn/", kr: "다각형", cn: "多边形 (duō biān xíng)", jp: "多角形 (たかくけい)", ex: "A triangle is a shape called a <b>polygon</b>." },
+      { word: "triangle", phonetic: "/ˈtraɪæŋɡəl/", kr: "삼각형", cn: "三角形 (sān jiǎo xíng)", jp: "三角形 (さんかくけい)", ex: "A <b>triangle</b> has three sides." },
+      { word: "right triangle", phonetic: "/raɪt ˈtraɪæŋɡəl/", kr: "직각 삼각형", cn: "直角三角形 (zhí jiǎo sān jiǎo xíng)", jp: "直角三角形 (ちょっかくさんかくけい)", ex: "A <b>right triangle</b> has one 90-degree corner." },
+      { word: "obtuse triangle", phonetic: "/əbˈtjuːs ˈtraɪæŋɡəl/", kr: "둔각 삼각형", cn: "钝角三角形 (dùn jiǎo sān jiǎo xíng)", jp: "鈍角三角形 (どんかくさんかくけい)", ex: "An <b>obtuse triangle</b> has one very wide corner." },
+      { word: "scalene triangle", phonetic: "/ˈskeɪliːn ˈtraɪæŋɡəl/", kr: "부등변 삼각형", cn: "不等边三角形 (bù děng biān sān jiǎo xíng)", jp: "不等辺三角形 (ふとうへんさんかくけい)", ex: "A <b>scalene triangle</b> has sides of all different lengths." },
+      { word: "quadrilateral", phonetic: "/ˌkwɒdrɪˈlætərəl/", kr: "사각형", cn: "四边形 (sì biān xíng)", jp: "四角形 (しかくけい)", ex: "A square is a <b>quadrilateral</b> with four sides." },
+      { word: "parallelogram", phonetic: "/ˌpærəˈlɛləɡræm/", kr: "평행사변형", cn: "平行四边形 (píng xíng sì biān xíng)", jp: "平行四辺形 (へいこうしへんけい)", ex: "A <b>parallelogram</b> has two pairs of parallel sides." },
+      { word: "rectangle", phonetic: "/ˈrɛktæŋɡəl/", kr: "직사각형", cn: "矩形 (jù xíng)", jp: "長方形 (ちょうほうけい)", ex: "A door is usually shaped like a <b>rectangle</b>." },
+      { word: "square", phonetic: "/skwɛər/", kr: "정사각형", cn: "正方形 (zhèng fāng xíng)", jp: "正方形 (せいほうけい)", ex: "A <b>square</b> has four equal sides." },
+      { word: "rhombus", phonetic: "/ˈrɒmbəs/", kr: "마름모", cn: "菱形 (líng xíng)", jp: "ひし形 (ひしがた)", ex: "A <b>rhombus</b> looks like a tilted square." },
+      { word: "trapezoid", phonetic: "/ˈtræpɪzɔɪd/", kr: "사다리꼴", cn: "梯形 (tī xíng)", jp: "台形 (だいてい)", ex: "A <b>trapezoid</b> has only one pair of parallel sides." },
+      { word: "line of symmetry", phonetic: "/laɪn ɒv ˈsɪmɪtri/", kr: "대칭축", cn: "对称轴 (duì chèn zhóu)", jp: "対称軸 (たいしょうじく)", ex: "A butterfly has a <b>line of symmetry</b> down the middle." },
+      { word: "circle", phonetic: "/ˈsɜːrkəl/", kr: "원", cn: "圆 (yuán)", jp: "円 (えん)", ex: "A coin is shaped like a <b>circle</b>." },
+      { word: "radius", phonetic: "/ˈreɪdiəs/", kr: "반지름", cn: "半径 (bàn jìng)", jp: "半径 (はんけい)", ex: "The <b>radius</b> is half of the circle's width." },
+      { word: "diameter", phonetic: "/daɪˈæmɪtər/", kr: "지름", cn: "直径 (zhí jìng)", jp: "直径 (ちょっけい)", ex: "The <b>diameter</b> cuts straight across the whole circle." },
+      { word: "volume", phonetic: "/ˈvɒljuːm/", kr: "부피, 체적", cn: "体积 (tǐ jī)", jp: "体積 (たいせき)", ex: "<b>Volume</b> is how much space is inside a box." },
+      { word: "coordinate plane", phonetic: "/koʊˈɔːrdɪnət pleɪn/", kr: "좌표 평면", cn: "坐标平面 (zuò biāo píng miàn)", jp: "座標平面 (ざひょうへいめん)", ex: "We use a <b>coordinate plane</b> to plot points." },
+      { word: "ordered pair", phonetic: "/ˈɔːrdərd pɛər/", kr: "순서쌍", cn: "有序对 (yǒu xù duì)", jp: "順序対 (じゅんじょつい)", ex: "An <b>ordered pair</b> like (2, 3) tells us where to go." },
+      { word: "origin", phonetic: "/ˈɒrɪdʒɪn/", kr: "원점", cn: "原点 (yuán diǎn)", jp: "原点 (げんてん)", ex: "The <b>origin</b> is the point (0,0) on a graph." },
+      { word: "x-axis", phonetic: "/ˈɛks ˌæksɪs/", kr: "x축", cn: "x轴 (x zhóu)", jp: "x軸 (えっくすじく)", ex: "The <b>x-axis</b> goes left and right." },
+      { word: "y-axis", phonetic: "/ˈwaɪ ˌæksɪs/", kr: "y축", cn: "y轴 (y zhóu)", jp: "y軸 (わいじく)", ex: "The <b>y-axis</b> goes up and down." },
+      { word: "3d shapes", phonetic: "/ˈθriː diː ʃeɪps/", kr: "3차원 입체 도형", cn: "3D图形 (sān d tú xíng)", jp: "3D図形 (すりーでぃーずけい)", ex: "A ball and a box are <b>3d shapes</b>." },
+      { word: "cube", phonetic: "/kjuːb/", kr: "정육면체", cn: "立方体 (lì fāng tǐ)", jp: "立方体 (りっぽうたい)", ex: "A dice is shaped like a <b>cube</b>." },
+      { word: "sphere", phonetic: "/sfɪər/", kr: "구", cn: "球体 (qiú tǐ)", jp: "球 (きゅう)", ex: "A basketball is a perfectly round <b>sphere</b>." },
+      { word: "cylinder", phonetic: "/ˈsɪlɪndər/", kr: "원기둥", cn: "圆柱体 (yuán zhù tǐ)", jp: "円柱 (えんちゅう)", ex: "A soup can is a <b>cylinder</b>." },
+      { word: "cone", phonetic: "/koʊn/", kr: "원뿔", cn: "圆锥体 (yuán zhuī tǐ)", jp: "円錐 (えんすい)", ex: "An ice cream <b>cone</b> has a pointy bottom." },
+      { word: "prism", phonetic: "/ˈprɪzəm/", kr: "기둥", cn: "棱柱 (léng zhù)", jp: "角柱 (かくちゅう)", ex: "A long box is a rectangular <b>prism</b>." },
+      { word: "pyramid", phonetic: "/ˈpɪrəmɪd/", kr: "뿔, 피라미드", cn: "金字塔 (jīn zì tǎ)", jp: "角錐 (かくすい)", ex: "A <b>pyramid</b> has a flat base and a pointy top." },
+      { word: "face", phonetic: "/feɪs/", kr: "면", cn: "面 (miàn)", jp: "面 (めん)", ex: "A cube has six flat <b>face</b>s." },
+      { word: "edge", phonetic: "/ɛdʒ/", kr: "모서리", cn: "边 (biān)", jp: "辺 (へん)", ex: "An <b>edge</b> is where two flat faces meet." },
+
+      // Models & Tools
+      { word: "tape diagram", phonetic: "/teɪp ˈdaɪəɡræm/", kr: "테이프 다이어그램", cn: "带状图 (dài zhuàng tú)", jp: "テープ図 (てーぷず)", ex: "We draw a <b>tape diagram</b> to solve the puzzle." },
+      { word: "bar diagram", phonetic: "/bɑːr ˈdaɪəɡræm/", kr: "막대 다이어그램", cn: "条形图 (tiáo xíng tú)", jp: "棒図 (ぼうず)", ex: "A <b>bar diagram</b> helps us see parts and a whole." },
+      { word: "area model", phonetic: "/ˈɛəriə ˈmɒdl/", kr: "넓이 모델", cn: "面积模型 (miàn jī mó xíng)", jp: "面積モデル (めんせきもでる)", ex: "We use an <b>area model</b> to multiply big numbers." },
+      { word: "array", phonetic: "/əˈreɪ/", kr: "배열", cn: "阵列 (zhèn liè)", jp: "配列 (はいれつ)", ex: "An <b>array</b> has neat rows and columns of dots." },
+      { word: "rectangular array", phonetic: "/rɛkˈtæŋɡjʊlər əˈreɪ/", kr: "직사각형 배열", cn: "矩形阵列 (jù xíng zhèn liè)", jp: "長方形配列 (ちょうほうけいはいれつ)", ex: "A carton of eggs is a <b>rectangular array</b>." },
+      { word: "rows", phonetic: "/roʊz/", kr: "행, 가로줄", cn: "行 (xíng)", jp: "行 (ぎょう)", ex: "The desks are arranged in straight <b>rows</b>." },
+      { word: "columns", phonetic: "/ˈkɒləmz/", kr: "열, 세로줄", cn: "列 (liè)", jp: "列 (れつ)", ex: "<b>Columns</b> go straight up and down." },
+      { word: "number bond", phonetic: "/ˈnʌmbər bɒnd/", kr: "수 가르기/모으기", cn: "数字键 (shù zì jiàn)", jp: "ナンバーボンド (なんばーぼんど)", ex: "A <b>number bond</b> shows how parts make a whole." },
+      { word: "protractor", phonetic: "/proʊˈtræktər/", kr: "각도기", cn: "量角器 (liáng jiǎo qì)", jp: "分度器 (ふんどき)", ex: "Use a <b>protractor</b> to measure the angle." },
+      { word: "ruler", phonetic: "/ˈruːlər/", kr: "자", cn: "尺子 (chǐ zi)", jp: "定規 (じょうぎ)", ex: "Use a <b>ruler</b> to draw a straight line." },
+      { word: "compass", phonetic: "/ˈkʌmpəs/", kr: "컴퍼스", cn: "圆规 (yuán guī)", jp: "コンパス (こんぱす)", ex: "A <b>compass</b> helps you draw a perfect circle." }
+    ];
+
+    function App() {
+      // Main progression states
+      const [mainIndex, setMainIndex] = useState(0);
+      const [highestMainIndex, setHighestMainIndex] = useState(0);
+      const [isFlipped, setIsFlipped] = useState(false);
+      
+      // Review session states (The 5X Loop)
+      const [inReviewSession, setInReviewSession] = useState(false);
+      const [reviewQueue, setReviewQueue] = useState([]);
+      const [reviewIndex, setReviewIndex] = useState(0);
+
+      // Determine which word is currently showing
+      const currentList = inReviewSession ? reviewQueue : vocabData;
+      const currentIndex = inReviewSession ? reviewIndex : mainIndex;
+      const currentWord = currentList[currentIndex];
+
+      const isDone = !inReviewSession && mainIndex >= vocabData.length;
+
+      const playTTS = (e) => {
+        e.stopPropagation();
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(currentWord.word);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.85; 
+          window.speechSynthesis.speak(utterance);
+        } else {
+          alert("TTS not supported.");
+        }
+      };
+
+      const handleFlip = () => setIsFlipped(!isFlipped);
+
+      const handlePrev = () => {
+        setIsFlipped(false);
+        if (inReviewSession) {
+          setReviewIndex((prev) => (prev - 1 + reviewQueue.length) % reviewQueue.length);
+        } else {
+          setMainIndex((prev) => Math.max(0, prev - 1));
+        }
+      };
+
+      const handleNext = () => {
+        setIsFlipped(false);
+        if (inReviewSession) {
+          setReviewIndex((prev) => (prev + 1) % reviewQueue.length);
+        } else {
+          setMainIndex((prev) => Math.min(vocabData.length, prev + 1));
+        }
+      };
+
+      const handleO = () => {
+        setIsFlipped(false);
+        if (inReviewSession) {
+          // Remove from review queue when 'O' is clicked
+          const newQueue = reviewQueue.filter((_, idx) => idx !== reviewIndex);
+          setReviewQueue(newQueue);
+          
+          if (newQueue.length === 0) {
+            setInReviewSession(false);
+          } else {
+            setReviewIndex((prev) => prev % newQueue.length);
+          }
+        } else {
+          setHighestMainIndex((prev) => Math.max(prev, mainIndex + 1));
+          setMainIndex((prev) => prev + 1);
+        }
+      };
+
+      const handleX = () => {
+        setIsFlipped(false);
+        if (inReviewSession) {
+          // Just move to the next review word if 'X' is clicked again
+          setReviewIndex((prev) => (prev + 1) % reviewQueue.length);
+        } else {
+          setHighestMainIndex((prev) => Math.max(prev, mainIndex + 1));
+          
+          const newReviewQueue = [...reviewQueue, vocabData[mainIndex]];
+          setReviewQueue(newReviewQueue);
+          
+          if (newReviewQueue.length === 5) {
+            setInReviewSession(true);
+            setReviewIndex(0);
+            setMainIndex((prev) => prev + 1);
+          } else {
+            setMainIndex((prev) => prev + 1);
+          }
+        }
+      };
+
+      const handleRestart = () => {
+        setMainIndex(0);
+        setHighestMainIndex(0);
+        setInReviewSession(false);
+        setReviewQueue([]);
+        setReviewIndex(0);
+        setIsFlipped(false);
+      };
+
+      if (isDone) {
+        return (
+          <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+            <h1 className="text-4xl font-bold text-slate-800 mb-4">Great Job! 🎉</h1>
+            <p className="text-lg text-slate-600 mb-8">You finished all the math vocabulary words.</p>
+            <button 
+              onClick={handleRestart}
+              className="px-8 py-4 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 font-bold"
+            >
+              Start Over
+            </button>
+          </div>
+        );
+      }
+
+      return (
+        <div className="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6">
+          
+          {/* Header & Status */}
+          <div className="w-full max-w-2xl text-center mb-6">
+            <h1 className="text-2xl font-bold text-slate-800 mb-2">Math Vocab Flashcards</h1>
+            <p className="text-sm text-slate-500 mb-4 font-medium">
+              Click the card to flip. Use 'O' or 'X' to proceed.
+            </p>
+
+            <div className={`p-4 rounded-xl shadow-sm border-2 flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors ${inReviewSession ? 'bg-orange-50 border-orange-400' : 'bg-white border-slate-200'}`}>
+              <div className="flex flex-col text-left">
+                <span className={`font-bold text-lg ${inReviewSession ? 'text-orange-600' : 'text-slate-700'}`}>
+                  {inReviewSession ? "Review Mode (5 Words)" : "Main Mode"}
+                </span>
+                <span className="text-xs text-slate-500">
+                  {inReviewSession 
+                    ? "Turn all 'X' into 'O' to continue."
+                    : "Collect 5 'X' marks to trigger a review."}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                {!inReviewSession && (
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <div 
+                        key={i} 
+                        className={`w-4 h-4 rounded-full border-2 ${i < reviewQueue.length ? 'bg-red-500 border-red-500' : 'bg-slate-100 border-slate-300'}`}
+                      />
+                    ))}
+                  </div>
+                )}
+                {inReviewSession && (
+                  <div className="text-orange-700 font-bold bg-orange-200 px-3 py-1 rounded-full text-sm">
+                    {reviewQueue.length} words left
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="text-slate-500 font-medium mb-4 text-sm uppercase tracking-wider">
+            {inReviewSession 
+              ? `Review Card ${reviewIndex + 1} of ${reviewQueue.length}`
+              : `Card ${mainIndex + 1} of ${vocabData.length}`}
+          </div>
+
+          {/* Flashcard (Instant Flip) */}
+          <div 
+            className="w-full max-w-2xl h-[420px] mb-8 cursor-pointer relative"
+            onClick={handleFlip}
+          >
+            {!isFlipped ? (
+              // FRONT
+              <div className="absolute inset-0 bg-white rounded-3xl shadow-md border border-slate-200 flex flex-col items-center justify-center p-8 text-center">
+                <button 
+                  onClick={playTTS}
+                  className="absolute top-6 right-6 p-3 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition shadow-sm"
+                  title="Listen"
+                >
+                  <VolumeIcon />
+                </button>
+                <h2 className="text-5xl sm:text-6xl font-extrabold text-slate-800 mb-6 tracking-tight">
+                  {currentWord.word}
+                </h2>
+                <p className="text-2xl text-slate-400 font-medium font-sans">
+                  {currentWord.phonetic}
+                </p>
+                <div className="absolute bottom-6 text-slate-400 text-sm font-semibold">
+                  Click to flip
+                </div>
+              </div>
+            ) : (
+              // BACK
+              <div className="absolute inset-0 bg-white rounded-3xl shadow-md border border-slate-200 flex flex-col justify-center p-6 sm:p-10 text-left">
+                
+                <div className="flex flex-col gap-5 mb-6">
+                  {/* Korean */}
+                  <div className="flex items-center gap-4">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 font-bold rounded text-xs w-10 text-center">KR</span>
+                    <span className="text-2xl font-bold text-blue-600">{currentWord.kr}</span>
+                  </div>
+                  
+                  {/* Chinese */}
+                  <div className="flex items-center gap-4">
+                    <span className="px-3 py-1 bg-red-100 text-red-700 font-bold rounded text-xs w-10 text-center">CN</span>
+                    <span className="text-2xl font-bold text-red-600">{currentWord.cn}</span>
+                  </div>
+                  
+                  {/* Japanese */}
+                  <div className="flex items-center gap-4">
+                    <span className="px-3 py-1 bg-emerald-100 text-emerald-700 font-bold rounded text-xs w-10 text-center">JP</span>
+                    <span className="text-2xl font-bold text-emerald-600">{currentWord.jp}</span>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-slate-200 my-4"></div>
+                
+                {/* Example Sentence */}
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Example</span>
+                  <p 
+                    className="text-lg sm:text-xl text-slate-700 font-medium leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: currentWord.ex }}
+                  />
+                </div>
+                
+                <div className="absolute bottom-6 left-0 right-0 text-center text-slate-400 text-sm font-semibold">
+                  Click to flip back
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Controls */}
+          <div className="w-full max-w-2xl flex items-center justify-between px-2">
+            <button 
+              onClick={handlePrev}
+              disabled={currentIndex === 0 && !inReviewSession}
+              className="flex items-center gap-2 px-5 py-3 text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed font-bold shadow-sm"
+            >
+              <ArrowLeft /> Prev
+            </button>
+
+            <div className="flex gap-4">
+              <button 
+                onClick={handleO}
+                className="w-16 h-16 sm:w-20 sm:h-20 bg-green-500 border-b-4 border-green-600 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition shadow-md active:border-b-0 active:translate-y-1"
+                title="Know it"
+              >
+                <CircleIcon />
+              </button>
+              
+              <button 
+                onClick={handleX}
+                className="w-16 h-16 sm:w-20 sm:h-20 bg-red-500 border-b-4 border-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition shadow-md active:border-b-0 active:translate-y-1"
+                title="Don't know it"
+              >
+                <XIcon />
+              </button>
+            </div>
+
+            <button 
+              onClick={handleNext}
+              disabled={inReviewSession || mainIndex >= highestMainIndex}
+              title={inReviewSession || mainIndex >= highestMainIndex ? "Press O or X to continue" : "Next card"}
+              className="flex items-center gap-2 px-5 py-3 text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed font-bold shadow-sm"
+            >
+              Next <ArrowRight />
+            </button>
+          </div>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
