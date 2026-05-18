@@ -16,10 +16,37 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800">
-  <!-- Watermark: Ms. Hana's ELL Class -->
-  <div class="fixed top-4 right-4 text-slate-300/60 font-bold text-sm sm:text-base tracking-widest pointer-events-none select-none z-[9999]">
-    Ms. Hana's ELL Class
+
+  <!-- Smart Copyright & Contact Badge (Hover to expand) -->
+  <div class="fixed top-4 right-4 z-[9999] group flex flex-col items-end">
+    <!-- Collapsed Badge -->
+    <div class="bg-orange-500 text-white font-bold text-sm sm:text-base px-4 py-2 rounded-full shadow-md cursor-help opacity-90 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+      © Ms. Hana
+    </div>
+    
+    <!-- Expanded Info Box -->
+    <div class="mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-5 text-sm text-slate-600 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 origin-top-right">
+      <h3 class="font-black text-slate-800 text-base mb-2 border-b border-slate-100 pb-2">© Hana (Hyuna) Gu</h3>
+      <ul class="space-y-2 mb-4 text-xs sm:text-sm">
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 font-bold">✓</span>
+          <span>Free for <b>student self-study</b> and practice.</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-red-500 font-bold">✗</span>
+          <span><b>Classroom use by other educators</b> requires explicit permission.</span>
+        </li>
+      </ul>
+      <div class="pt-3 border-t border-slate-100 text-xs sm:text-sm bg-slate-50 p-3 rounded-lg">
+        <p class="font-bold text-slate-700 mb-1">Need more levels or topics?</p>
+        <p>Contact for full access & licensing:<br>
+          <a href="mailto:hanagu.teaching@gmail.com" class="text-blue-600 font-bold hover:underline break-all">hanagu.teaching@gmail.com</a>
+        </p>
+      </div>
+    </div>
   </div>
+
   <div id="root"></div>
 
   <script type="text/babel">
@@ -57,109 +84,109 @@
       </svg>
     );
 
-    // Math Vocabulary Data (Lowercased, deduplicated, and enriched)
+    // Math Vocabulary Data (Lowercased, deduplicated, enriched, and definitions added)
     const vocabData = [
       // Measurement & Data
-      { word: "line plot", phonetic: "/laɪn plɒt/", kr: "선 그래프(점 도표)", cn: "线图 (xiàn tú)", jp: "線グラフ (せんぐらふ)", ex: "A <b>line plot</b> uses X's to show data on a number line." },
-      { word: "customary system", phonetic: "/ˈkʌstəməri ˈsɪstəm/", kr: "야드파운드법(미국 단위계)", cn: "美制单位 (měi zhì dān wèi)", jp: "ヤード・ポンド法 (やーど・ぽんどほう)", ex: "The <b>customary system</b> uses inches and pounds." },
-      { word: "metric system", phonetic: "/ˈmɛtrɪk ˈsɪstəm/", kr: "미터법", cn: "公制 (gōng zhì)", jp: "メートル法 (めーとるほう)", ex: "The <b>metric system</b> uses meters and grams." },
-      { word: "inch", phonetic: "/ɪntʃ/", kr: "인치", cn: "英寸 (yīng cùn)", jp: "インチ (いんち)", ex: "My thumb is about one <b>inch</b> long." },
-      { word: "foot", phonetic: "/fʊt/", kr: "피트", cn: "英尺 (yīng chǐ)", jp: "フィート (ふぃーと)", ex: "A ruler is one <b>foot</b> long." },
-      { word: "yard", phonetic: "/jɑːrd/", kr: "야드", cn: "码 (mǎ)", jp: "ヤード (やーど)", ex: "Three feet make one <b>yard</b>." },
-      { word: "ounce", phonetic: "/aʊns/", kr: "온스", cn: "盎司 (àng sī)", jp: "オンス (おんす)", ex: "A strawberry weighs about one <b>ounce</b>." },
-      { word: "pound", phonetic: "/paʊnd/", kr: "파운드", cn: "磅 (bàng)", jp: "ポンド (ぽんど)", ex: "A loaf of bread is about one <b>pound</b>." },
-      { word: "cup", phonetic: "/kʌp/", kr: "컵", cn: "杯 (bēi)", jp: "カップ (かっぷ)", ex: "I need one <b>cup</b> of milk for the cake." },
-      { word: "pint", phonetic: "/paɪnt/", kr: "파인트", cn: "品脱 (pǐn tuō)", jp: "パイント (ぱいんと)", ex: "A large glass holds about a <b>pint</b> of water." },
-      { word: "quart", phonetic: "/kwɔːrt/", kr: "쿼트", cn: "夸脱 (kuā tuō)", jp: "クォート (くぉーと)", ex: "Four cups make one <b>quart</b>." },
-      { word: "gallon", phonetic: "/ˈɡælən/", kr: "갤런", cn: "加仑 (jiā lún)", jp: "ガロン (がろん)", ex: "We bought a <b>gallon</b> of juice for the party." },
-      { word: "hour", phonetic: "/ˈaʊər/", kr: "시간", cn: "小时 (xiǎo shí)", jp: "時間 (じかん)", ex: "One <b>hour</b> has 60 minutes." },
-      { word: "minute", phonetic: "/ˈmɪnɪt/", kr: "분", cn: "分钟 (fēn zhōng)", jp: "分 (ふん)", ex: "I will be ready in one <b>minute</b>." },
-      { word: "second", phonetic: "/ˈsɛkənd/", kr: "초", cn: "秒 (miǎo)", jp: "秒 (びょう)", ex: "A <b>second</b> is a very short time." },
-      { word: "interval", phonetic: "/ˈɪntərvəl/", kr: "간격", cn: "间隔 (jiān gé)", jp: "間隔 (かんかく)", ex: "The bells ring at a five-minute <b>interval</b>." },
-      { word: "mile", phonetic: "/maɪl/", kr: "마일", cn: "英里 (yīng lǐ)", jp: "マイル (まいる)", ex: "We walked one <b>mile</b> to the park." },
-      { word: "millimeter", phonetic: "/ˈmɪlɪˌmiːtər/", kr: "밀리미터", cn: "毫米 (háo mǐ)", jp: "ミリメートル (みりめーとる)", ex: "An ant is a few <b>millimeter</b>s long." },
-      { word: "bar graph", phonetic: "/bɑːr ɡræf/", kr: "막대그래프", cn: "条形图 (tiáo xíng tú)", jp: "棒グラフ (ぼうぐらふ)", ex: "A <b>bar graph</b> uses thick blocks to show data." },
-      { word: "pie chart", phonetic: "/paɪ tʃɑːrt/", kr: "원그래프", cn: "饼图 (bǐng tú)", jp: "円グラフ (えんぐらふ)", ex: "A <b>pie chart</b> looks like a round pizza." },
-      { word: "line graph", phonetic: "/laɪn ɡræf/", kr: "꺾은선그래프", cn: "折线图 (zhé xiàn tú)", jp: "折れ線グラフ (おれせんぐらふ)", ex: "A <b>line graph</b> shows how things change over time." },
-      { word: "mean", phonetic: "/miːn/", kr: "평균", cn: "平均数 (píng jūn shù)", jp: "平均 (へいきん)", ex: "The <b>mean</b> is the average of the numbers." },
-      { word: "median", phonetic: "/ˈmiːdiən/", kr: "중앙값", cn: "中位数 (zhōng wèi shù)", jp: "中央値 (ちゅうおうあたい)", ex: "The <b>median</b> is the middle number in a line." },
-      { word: "mode", phonetic: "/moʊd/", kr: "최빈값", cn: "众数 (zhòng shù)", jp: "最頻値 (さいひんち)", ex: "The <b>mode</b> is the number that appears the most." },
-      { word: "range", phonetic: "/reɪndʒ/", kr: "범위", cn: "范围 (fàn wéi)", jp: "範囲 (はんい)", ex: "The <b>range</b> is the difference between the biggest and smallest numbers." },
+      { word: "line plot", phonetic: "/laɪn plɒt/", def: "a diagram that shows data as points or marks above a number line", kr: "선 그래프(점 도표)", cn: "线图 (xiàn tú)", jp: "線グラフ (せんぐらふ)", ex: "A <b>line plot</b> uses X's to show data on a number line." },
+      { word: "customary system", phonetic: "/ˈkʌstəməri ˈsɪstəm/", def: "the traditional system of units of measurement used in the United States", kr: "야드파운드법(미국 단위계)", cn: "美制单位 (měi zhì dān wèi)", jp: "ヤード・ポンド法 (やーど・ぽんどほう)", ex: "The <b>customary system</b> uses inches and pounds." },
+      { word: "metric system", phonetic: "/ˈmɛtrɪk ˈsɪstəm/", def: "an international decimal system of weights and measures based on meters and grams", kr: "미터법", cn: "公制 (gōng zhì)", jp: "メートル法 (めーとるほう)", ex: "The <b>metric system</b> uses meters and grams." },
+      { word: "inch", phonetic: "/ɪntʃ/", def: "a customary unit of length equal to 1/12 of a foot", kr: "인치", cn: "英寸 (yīng cùn)", jp: "インチ (いんち)", ex: "My thumb is about one <b>inch</b> long." },
+      { word: "foot", phonetic: "/fʊt/", def: "a customary unit of length equal to 12 inches", kr: "피트", cn: "英尺 (yīng chǐ)", jp: "フィート (ふぃーと)", ex: "A ruler is one <b>foot</b> long." },
+      { word: "yard", phonetic: "/jɑːrd/", def: "a customary unit of length equal to 3 feet or 36 inches", kr: "야드", cn: "码 (mǎ)", jp: "ヤード (やーど)", ex: "Three feet make one <b>yard</b>." },
+      { word: "ounce", phonetic: "/aʊns/", def: "a customary unit of weight equal to 1/16 of a pound", kr: "온스", cn: "盎司 (àng sī)", jp: "オンス (おんす)", ex: "A strawberry weighs about one <b>ounce</b>." },
+      { word: "pound", phonetic: "/paʊnd/", def: "a customary unit of weight equal to 16 ounces", kr: "파운드", cn: "磅 (bàng)", jp: "ポンド (ぽんど)", ex: "A loaf of bread is about one <b>pound</b>." },
+      { word: "cup", phonetic: "/kʌp/", def: "a customary unit of liquid capacity equal to 8 fluid ounces", kr: "컵", cn: "杯 (bēi)", jp: "カップ (かっぷ)", ex: "I need one <b>cup</b> of milk for the cake." },
+      { word: "pint", phonetic: "/paɪnt/", def: "a customary unit of liquid capacity equal to 2 cups or 16 fluid ounces", kr: "파인트", cn: "品脱 (pǐn tuō)", jp: "パイント (ぱいんと)", ex: "A large glass holds about a <b>pint</b> of water." },
+      { word: "quart", phonetic: "/kwɔːrt/", def: "a customary unit of liquid capacity equal to 2 pints or 4 cups", kr: "쿼트", cn: "夸脱 (kuā tuō)", jp: "クォート (くぉーと)", ex: "Four cups make one <b>quart</b>." },
+      { word: "gallon", phonetic: "/ˈɡælən/", def: "a customary unit of liquid capacity equal to 4 quarts", kr: "갤런", cn: "加仑 (jiā lún)", jp: "ガロン (がろん)", ex: "We bought a <b>gallon</b> of juice for the party." },
+      { word: "hour", phonetic: "/ˈaʊər/", def: "a unit of time equal to 60 minutes", kr: "시간", cn: "小时 (xiǎo shí)", jp: "時間 (じかん)", ex: "One <b>hour</b> has 60 minutes." },
+      { word: "minute", phonetic: "/ˈmɪnɪt/", def: "a unit of time equal to 60 seconds", kr: "분", cn: "分钟 (fēn zhōng)", jp: "分 (ふん)", ex: "I will be ready in one <b>minute</b>." },
+      { word: "second", phonetic: "/ˈsɛkənd/", def: "a basic unit of time equal to 1/60 of a minute", kr: "초", cn: "秒 (miǎo)", jp: "秒 (びょう)", ex: "A <b>second</b> is a very short time." },
+      { word: "interval", phonetic: "/ˈɪntərvəl/", def: "the amount of time or space between two points or events", kr: "간격", cn: "间隔 (jiān gé)", jp: "間隔 (かんかく)", ex: "The bells ring at a five-minute <b>interval</b>." },
+      { word: "mile", phonetic: "/maɪl/", def: "a customary unit of length equal to 5,280 feet", kr: "마일", cn: "英里 (yīng lǐ)", jp: "マイル (まいる)", ex: "We walked one <b>mile</b> to the park." },
+      { word: "millimeter", phonetic: "/ˈmɪlɪˌmiːtər/", def: "a metric unit of length equal to 1/10 of a centimeter", kr: "밀리미터", cn: "毫米 (háo mǐ)", jp: "ミリメートル (みりめーとる)", ex: "An ant is a few <b>millimeter</b>s long." },
+      { word: "bar graph", phonetic: "/bɑːr ɡræf/", def: "a diagram that uses rectangular bars to compare different categories of data", kr: "막대그래프", cn: "条形图 (tiáo xíng tú)", jp: "棒グラフ (ぼうぐらふ)", ex: "A <b>bar graph</b> uses thick blocks to show data." },
+      { word: "pie chart", phonetic: "/paɪ tʃɑːrt/", def: "a circular chart divided into sectors that represent parts of a whole", kr: "원그래프", cn: "饼图 (bǐng tú)", jp: "円グラフ (えんぐらふ)", ex: "A <b>pie chart</b> looks like a round pizza." },
+      { word: "line graph", phonetic: "/laɪn ɡræf/", def: "a diagram that uses lines to join points showing how data changes over time", kr: "꺾은선그래프", cn: "折线图 (zhé xiàn tú)", jp: "折れ線グラフ (おれせんぐらふ)", ex: "A <b>line graph</b> shows how things change over time." },
+      { word: "mean", phonetic: "/miːn/", def: "the average value of a set of numbers, found by dividing the sum by the count", kr: "평균", cn: "平均数 (píng jūn shù)", jp: "平均 (へいきん)", ex: "The <b>mean</b> is the average of the numbers." },
+      { word: "median", phonetic: "/ˈmiːdiən/", def: "the middle number in a sorted list of numbers", kr: "중앙값", cn: "中位数 (zhōng wèi shù)", jp: "中央値 (ちゅうおうあたい)", ex: "The <b>median</b> is the middle number in a line." },
+      { word: "mode", phonetic: "/moʊd/", def: "the number that appears most frequently in a set of numbers", kr: "최빈값", cn: "众数 (zhòng shù)", jp: "最頻値 (さいひんち)", ex: "The <b>mode</b> is the number that appears the most." },
+      { word: "range", phonetic: "/reɪndʒ/", def: "the difference between the highest and lowest values in a set of data", kr: "범위", cn: "范围 (fàn wéi)", jp: "範囲 (はんい)", ex: "The <b>range</b> is the difference between the biggest and smallest numbers." },
 
       // Geometry & Spatial Sense
-      { word: "figure", phonetic: "/ˈfɪɡjər/", kr: "도형", cn: "图形 (tú xíng)", jp: "図形 (ずけい)", ex: "A square is a 2D <b>figure</b>." },
-      { word: "line", phonetic: "/laɪn/", kr: "선, 직선", cn: "线 (xiàn)", jp: "線 (せん)", ex: "A <b>line</b> goes on forever in both directions." },
-      { word: "intersecting lines", phonetic: "/ˌɪntərˈsɛktɪŋ laɪnz/", kr: "교차선", cn: "相交线 (xiāng jiāo xiàn)", jp: "交線 (こうせん)", ex: "An 'X' is made of <b>intersecting lines</b>." },
-      { word: "collinear", phonetic: "/koʊˈlɪniər/", kr: "동일 직선 상의", cn: "共线 (gòng xiàn)", jp: "共線 (きょうせん)", ex: "Points on the same line are <b>collinear</b>." },
-      { word: "angle", phonetic: "/ˈæŋɡəl/", kr: "각도", cn: "角 (jiǎo)", jp: "角 (かく)", ex: "An <b>angle</b> is made when two lines meet." },
-      { word: "degree", phonetic: "/dɪˈɡriː/", kr: "도 (각도 단위)", cn: "度 (dù)", jp: "度 (ど)", ex: "A full circle is 360 <b>degree</b>s." },
-      { word: "degree measure", phonetic: "/dɪˈɡriː ˈmɛʒər/", kr: "각도 크기", cn: "角度测量 (jiǎo dù cè liáng)", jp: "角度 (かくど)", ex: "The <b>degree measure</b> tells us how wide the angle is." },
-      { word: "acute angle", phonetic: "/əˈkjuːt ˈæŋɡəl/", kr: "예각", cn: "锐角 (ruì jiǎo)", jp: "鋭角 (えいかく)", ex: "An <b>acute angle</b> is smaller than a right angle." },
-      { word: "adjacent angle", phonetic: "/əˈdʒeɪsənt ˈæŋɡəl/", kr: "인접각", cn: "相邻角 (xiāng lín jiǎo)", jp: "隣接角 (りんせつかく)", ex: "<b>Adjacent angle</b>s share the same side." },
-      { word: "complementary angles", phonetic: "/ˌkɒmplɪˈmɛntəri ˈæŋɡəlz/", kr: "여각", cn: "互余角 (hù yú jiǎo)", jp: "余角 (よかく)", ex: "<b>Complementary angles</b> add up to 90 degrees." },
-      { word: "interior angle", phonetic: "/ɪnˈtɪəriər ˈæŋɡəl/", kr: "내각", cn: "内角 (nèi jiǎo)", jp: "内角 (ないかく)", ex: "An <b>interior angle</b> is inside a shape." },
-      { word: "acute triangle", phonetic: "/əˈkjuːt ˈtraɪæŋɡəl/", kr: "예각 삼각형", cn: "锐角三角形 (ruì jiǎo sān jiǎo xíng)", jp: "鋭角三角形 (えいかくさんかくけい)", ex: "An <b>acute triangle</b> has three small angles." },
-      { word: "equilateral triangle", phonetic: "/ˌiːkwɪˈlætərəl ˈtraɪæŋɡəl/", kr: "정삼각형", cn: "等边三角形 (děng biān sān jiǎo xíng)", jp: "正三角形 (せいさんかくけい)", ex: "An <b>equilateral triangle</b> has three equal sides." },
-      { word: "isosceles triangle", phonetic: "/aɪˈsɒsɪliːz ˈtraɪæŋɡəl/", kr: "이등변 삼각형", cn: "等腰三角形 (děng yāo sān jiǎo xíng)", jp: "二等辺三角形 (にとうへんさんかくけい)", ex: "An <b>isosceles triangle</b> has two equal sides." },
-      { word: "diagonal", phonetic: "/daɪˈæɡənl/", kr: "대각선", cn: "对角线 (duì jiǎo xiàn)", jp: "対角線 (たいかくせん)", ex: "A <b>diagonal</b> line goes from one corner to another." },
-      { word: "arc", phonetic: "/ɑːrk/", kr: "호", cn: "弧 (hú)", jp: "弧 (こ)", ex: "An <b>arc</b> is a curved part of a circle." },
-      { word: "arc length", phonetic: "/ɑːrk lɛŋθ/", kr: "호의 길이", cn: "弧长 (hú cháng)", jp: "弧の長さ (このながさ)", ex: "You can measure the <b>arc length</b> with a string." },
-      { word: "perimeter", phonetic: "/pəˈrɪmɪtər/", kr: "둘레", cn: "周长 (zhōu cháng)", jp: "周長 (しゅうちょう)", ex: "The <b>perimeter</b> is the total length around a shape." },
-      { word: "area", phonetic: "/ˈɛəriə/", kr: "넓이", cn: "面积 (miàn jī)", jp: "面積 (めんせき)", ex: "The <b>area</b> is the space inside a shape." },
-      { word: "point", phonetic: "/pɔɪnt/", kr: "점", cn: "点 (diǎn)", jp: "点 (てん)", ex: "A <b>point</b> is an exact spot in space." },
-      { word: "line segment", phonetic: "/laɪn ˈsɛɡmənt/", kr: "선분", cn: "线段 (xiàn duàn)", jp: "線分 (せんぶん)", ex: "A <b>line segment</b> has a beginning and an end." },
-      { word: "ray", phonetic: "/reɪ/", kr: "반직선", cn: "射线 (shè xiàn)", jp: "半直線 (はんちょくせん)", ex: "A <b>ray</b> starts at a point and goes on forever." },
-      { word: "parallel", phonetic: "/ˈpærəlɛl/", kr: "평행한", cn: "平行 (píng xíng)", jp: "平行 (へいこう)", ex: "<b>Parallel</b> lines never touch each other." },
-      { word: "perpendicular", phonetic: "/ˌpɜːrpənˈdɪkjʊlər/", kr: "수직의", cn: "垂直 (chuí zhí)", jp: "垂直 (すいちょく)", ex: "<b>Perpendicular</b> lines make a perfect cross." },
-      { word: "vertex", phonetic: "/ˈvɜːrtɛks/", kr: "꼭짓점", cn: "顶点 (dǐng diǎn)", jp: "頂点 (ちょうてん)", ex: "A <b>vertex</b> is the corner of a shape." },
-      { word: "right angle", phonetic: "/raɪt ˈæŋɡəl/", kr: "직각", cn: "直角 (zhí jiǎo)", jp: "直角 (ちょっかく)", ex: "A <b>right angle</b> looks like the corner of a square." },
-      { word: "obtuse angle", phonetic: "/əbˈtjuːs ˈæŋɡəl/", kr: "둔각", cn: "钝角 (dùn jiǎo)", jp: "鈍角 (どんかく)", ex: "An <b>obtuse angle</b> is wider than a right angle." },
-      { word: "straight angle", phonetic: "/streɪt ˈæŋɡəl/", kr: "평각", cn: "平角 (píng jiǎo)", jp: "平角 (へいかく)", ex: "A <b>straight angle</b> makes a perfectly flat line." },
-      { word: "vertical angles", phonetic: "/ˈvɜːrtɪkəl ˈæŋɡəlz/", kr: "맞꼭지각", cn: "对顶角 (duì dǐng jiǎo)", jp: "対頂角 (たいちょうかく)", ex: "<b>Vertical angles</b> are across from each other." },
-      { word: "supplementary angles", phonetic: "/ˌsʌplɪˈmɛntəri ˈæŋɡəlz/", kr: "보각", cn: "互补角 (hù bǔ jiǎo)", jp: "補角 (ほかく)", ex: "<b>Supplementary angles</b> add up to 180 degrees." },
-      { word: "polygon", phonetic: "/ˈpɒlɪɡɒn/", kr: "다각형", cn: "多边形 (duō biān xíng)", jp: "多角形 (たかくけい)", ex: "A triangle is a shape called a <b>polygon</b>." },
-      { word: "triangle", phonetic: "/ˈtraɪæŋɡəl/", kr: "삼각형", cn: "三角形 (sān jiǎo xíng)", jp: "三角形 (さんかくけい)", ex: "A <b>triangle</b> has three sides." },
-      { word: "right triangle", phonetic: "/raɪt ˈtraɪæŋɡəl/", kr: "직각 삼각형", cn: "直角三角形 (zhí jiǎo sān jiǎo xíng)", jp: "直角三角形 (ちょっかくさんかくけい)", ex: "A <b>right triangle</b> has one 90-degree corner." },
-      { word: "obtuse triangle", phonetic: "/əbˈtjuːs ˈtraɪæŋɡəl/", kr: "둔각 삼각형", cn: "钝角三角形 (dùn jiǎo sān jiǎo xíng)", jp: "鈍角三角形 (どんかくさんかくけい)", ex: "An <b>obtuse triangle</b> has one very wide corner." },
-      { word: "scalene triangle", phonetic: "/ˈskeɪliːn ˈtraɪæŋɡəl/", kr: "부등변 삼각형", cn: "不等边三角形 (bù děng biān sān jiǎo xíng)", jp: "不等辺三角形 (ふとうへんさんかくけい)", ex: "A <b>scalene triangle</b> has sides of all different lengths." },
-      { word: "quadrilateral", phonetic: "/ˌkwɒdrɪˈlætərəl/", kr: "사각형", cn: "四边形 (sì biān xíng)", jp: "四角形 (しかくけい)", ex: "A square is a <b>quadrilateral</b> with four sides." },
-      { word: "parallelogram", phonetic: "/ˌpærəˈlɛləɡræm/", kr: "평행사변형", cn: "平行四边形 (píng xíng sì biān xíng)", jp: "平行四辺形 (へいこうしへんけい)", ex: "A <b>parallelogram</b> has two pairs of parallel sides." },
-      { word: "rectangle", phonetic: "/ˈrɛktæŋɡəl/", kr: "직사각형", cn: "矩形 (jù xíng)", jp: "長方形 (ちょうほうけい)", ex: "A door is usually shaped like a <b>rectangle</b>." },
-      { word: "square", phonetic: "/skwɛər/", kr: "정사각형", cn: "正方形 (zhèng fāng xíng)", jp: "正方形 (せいほうけい)", ex: "A <b>square</b> has four equal sides." },
-      { word: "rhombus", phonetic: "/ˈrɒmbəs/", kr: "마름모", cn: "菱形 (líng xíng)", jp: "ひし形 (ひしがた)", ex: "A <b>rhombus</b> looks like a tilted square." },
-      { word: "trapezoid", phonetic: "/ˈtræpɪzɔɪd/", kr: "사다리꼴", cn: "梯形 (tī xíng)", jp: "台形 (だいてい)", ex: "A <b>trapezoid</b> has only one pair of parallel sides." },
-      { word: "line of symmetry", phonetic: "/laɪn ɒv ˈsɪmɪtri/", kr: "대칭축", cn: "对称轴 (duì chèn zhóu)", jp: "対称軸 (たいしょうじく)", ex: "A butterfly has a <b>line of symmetry</b> down the middle." },
-      { word: "circle", phonetic: "/ˈsɜːrkəl/", kr: "원", cn: "圆 (yuán)", jp: "円 (えん)", ex: "A coin is shaped like a <b>circle</b>." },
-      { word: "radius", phonetic: "/ˈreɪdiəs/", kr: "반지름", cn: "半径 (bàn jìng)", jp: "半径 (はんけい)", ex: "The <b>radius</b> is half of the circle's width." },
-      { word: "diameter", phonetic: "/daɪˈæmɪtər/", kr: "지름", cn: "直径 (zhí jìng)", jp: "直径 (ちょっけい)", ex: "The <b>diameter</b> cuts straight across the whole circle." },
-      { word: "volume", phonetic: "/ˈvɒljuːm/", kr: "부피, 체적", cn: "体积 (tǐ jī)", jp: "体積 (たいせき)", ex: "<b>Volume</b> is how much space is inside a box." },
-      { word: "coordinate plane", phonetic: "/koʊˈɔːrdɪnət pleɪn/", kr: "좌표 평면", cn: "坐标平面 (zuò biāo píng miàn)", jp: "座標平面 (ざひょうへいめん)", ex: "We use a <b>coordinate plane</b> to plot points." },
-      { word: "ordered pair", phonetic: "/ˈɔːrdərd pɛər/", kr: "순서쌍", cn: "有序对 (yǒu xù duì)", jp: "順序対 (じゅんじょつい)", ex: "An <b>ordered pair</b> like (2, 3) tells us where to go." },
-      { word: "origin", phonetic: "/ˈɒrɪdʒɪn/", kr: "원점", cn: "原点 (yuán diǎn)", jp: "原点 (げんてん)", ex: "The <b>origin</b> is the point (0,0) on a graph." },
-      { word: "x-axis", phonetic: "/ˈɛks ˌæksɪs/", kr: "x축", cn: "x轴 (x zhóu)", jp: "x軸 (えっくすじく)", ex: "The <b>x-axis</b> goes left and right." },
-      { word: "y-axis", phonetic: "/ˈwaɪ ˌæksɪs/", kr: "y축", cn: "y轴 (y zhóu)", jp: "y軸 (わいじく)", ex: "The <b>y-axis</b> goes up and down." },
-      { word: "3d shapes", phonetic: "/ˈθriː diː ʃeɪps/", kr: "3차원 입체 도형", cn: "3D图形 (sān d tú xíng)", jp: "3D図形 (すりーでぃーずけい)", ex: "A ball and a box are <b>3d shapes</b>." },
-      { word: "cube", phonetic: "/kjuːb/", kr: "정육면체", cn: "立方体 (lì fāng tǐ)", jp: "立方体 (りっぽうたい)", ex: "A dice is shaped like a <b>cube</b>." },
-      { word: "sphere", phonetic: "/sfɪər/", kr: "구", cn: "球体 (qiú tǐ)", jp: "球 (きゅう)", ex: "A basketball is a perfectly round <b>sphere</b>." },
-      { word: "cylinder", phonetic: "/ˈsɪlɪndər/", kr: "원기둥", cn: "圆柱体 (yuán zhù tǐ)", jp: "円柱 (えんちゅう)", ex: "A soup can is a <b>cylinder</b>." },
-      { word: "cone", phonetic: "/koʊn/", kr: "원뿔", cn: "圆锥体 (yuán zhuī tǐ)", jp: "円錐 (えんすい)", ex: "An ice cream <b>cone</b> has a pointy bottom." },
-      { word: "prism", phonetic: "/ˈprɪzəm/", kr: "기둥", cn: "棱柱 (léng zhù)", jp: "角柱 (かくちゅう)", ex: "A long box is a rectangular <b>prism</b>." },
-      { word: "pyramid", phonetic: "/ˈpɪrəmɪd/", kr: "뿔, 피라미드", cn: "金字塔 (jīn zì tǎ)", jp: "角錐 (かくすい)", ex: "A <b>pyramid</b> has a flat base and a pointy top." },
-      { word: "face", phonetic: "/feɪs/", kr: "면", cn: "面 (miàn)", jp: "面 (めん)", ex: "A cube has six flat <b>face</b>s." },
-      { word: "edge", phonetic: "/ɛdʒ/", kr: "모서리", cn: "边 (biān)", jp: "辺 (へん)", ex: "An <b>edge</b> is where two flat faces meet." },
+      { word: "figure", phonetic: "/ˈfɪɡjər/", def: "any closed geometric shape or drawing", kr: "도형", cn: "图形 (tú xíng)", jp: "図形 (ずけい)", ex: "A square is a 2D <b>figure</b>." },
+      { word: "line", phonetic: "/laɪn/", def: "a straight path of points that continues infinitely in both directions", kr: "선, 직선", cn: "线 (xiàn)", jp: "線 (せん)", ex: "A <b>line</b> goes on forever in both directions." },
+      { word: "intersecting lines", phonetic: "/ˌɪntərˈsɛktɪŋ laɪnz/", def: "lines that share a common point where they cross each other", kr: "교차선", cn: "相交线 (xiāng jiāo xiàn)", jp: "交線 (こうせん)", ex: "An 'X' is made of <b>intersecting lines</b>." },
+      { word: "collinear", phonetic: "/koʊˈlɪniər/", def: "points that lie on the exact same straight line", kr: "동일 직선 상의", cn: "共线 (gòng xiàn)", jp: "共線 (きょうせん)", ex: "Points on the same line are <b>collinear</b>." },
+      { word: "angle", phonetic: "/ˈæŋɡəl/", def: "the opening or space between two lines that meet at a shared point", kr: "각도", cn: "角 (jiǎo)", jp: "角 (かく)", ex: "An <b>angle</b> is made when two lines meet." },
+      { word: "degree", phonetic: "/dɪˈɡriː/", def: "a small unit of measurement used to show the size of an angle", kr: "도 (각도 단위)", cn: "度 (dù)", jp: "度 (ど)", ex: "A full circle is 360 <b>degree</b>s." },
+      { word: "degree measure", phonetic: "/dɪˈɡriː ˈmɛʒər/", def: "the size or value of an angle measured in degrees", kr: "각도 크기", cn: "角度测量 (jiǎo dù cè liáng)", jp: "角度 (かくど)", ex: "The <b>degree measure</b> tells us how wide the angle is." },
+      { word: "acute angle", phonetic: "/əˈkjuːt ˈæŋɡəl/", def: "an angle that measures less than 90 degrees", kr: "예각", cn: "锐角 (ruì jiǎo)", jp: "鋭角 (えいかく)", ex: "An <b>acute angle</b> is smaller than a right angle." },
+      { word: "adjacent angle", phonetic: "/əˈdʒeɪsənt ˈæŋɡəl/", def: "two angles that are side-by-side and share a common vertex and border line", kr: "인접각", cn: "相邻角 (xiāng lín jiǎo)", jp: "隣接角 (りんせつかく)", ex: "<b>Adjacent angle</b>s share the same side." },
+      { word: "complementary angles", phonetic: "/ˌkɒmplɪˈmɛntəri ˈæŋɡəlz/", def: "a pair of angles whose sum is exactly 90 degrees", kr: "여각", cn: "互余角 (hù yú jiǎo)", jp: "余角 (よかく)", ex: "<b>Complementary angles</b> add up to 90 degrees." },
+      { word: "interior angle", phonetic: "/ɪnˈtɪəriər ˈæŋɡəl/", def: "an angle formed inside the boundary lines of a polygon", kr: "내각", cn: "内角 (nèi jiǎo)", jp: "内角 (ないかく)", ex: "An <b>interior angle</b> is inside a shape." },
+      { word: "acute triangle", phonetic: "/əˈkjuːt ˈtraɪæŋɡəl/", def: "a triangle where all three of its angles are less than 90 degrees", kr: "예각 삼각형", cn: "锐角三角形 (ruì jiǎo sān jiǎo xíng)", jp: "鋭角三角形 (えいかくさんかくけい)", ex: "An <b>acute triangle</b> has three small angles." },
+      { word: "equilateral triangle", phonetic: "/ˌiːkwɪˈlætərəl ˈtraɪæŋɡəl/", def: "a triangle with three sides of the exact same length", kr: "정삼각형", cn: "等边三角形 (děng biān sān jiǎo xíng)", jp: "正三角形 (せいさんかくけい)", ex: "An <b>equilateral triangle</b> has three equal sides." },
+      { word: "isosceles triangle", phonetic: "/aɪˈsɒsɪliːz ˈtraɪæŋɡəl/", def: "a triangle that has at least two sides of equal length", kr: "이등변 삼각형", cn: "等腰三角形 (děng yāo sān jiǎo xíng)", jp: "二等辺三角形 (にとうへんさんかくけい)", ex: "An <b>isosceles triangle</b> has two equal sides." },
+      { word: "diagonal", phonetic: "/daɪˈæɡənl/", def: "a straight line segment that connects two non-adjacent corners of a shape", kr: "대각선", cn: "对角线 (duì jiǎo xiàn)", jp: "対角線 (たいかくせん)", ex: "A <b>diagonal</b> line goes from one corner to another." },
+      { word: "arc", phonetic: "/ɑːrk/", def: "any portion or segment of the curved boundary of a circle", kr: "호", cn: "弧 (hú)", jp: "弧 (こ)", ex: "An <b>arc</b> is a curved part of a circle." },
+      { word: "arc length", phonetic: "/ɑːrk lɛŋθ/", def: "the distance measured along the curved line of an arc", kr: "호의 길이", cn: "弧长 (hú cháng)", jp: "弧の長さ (このながさ)", ex: "You can measure the <b>arc length</b> with a string." },
+      { word: "perimeter", phonetic: "/pəˈrɪmɪtər/", def: "the continuous line forming the outside boundary of a closed geometric shape", kr: "둘레", cn: "周长 (zhōu cháng)", jp: "周長 (しゅうちょう)", ex: "The <b>perimeter</b> is the total length around a shape." },
+      { word: "area", phonetic: "/ˈɛəriə/", def: "the size or amount of flat space contained inside a closed 2D shape", kr: "넓이", cn: "面积 (miàn jī)", jp: "面積 (めんせき)", ex: "The <b>area</b> is the space inside a shape." },
+      { word: "point", phonetic: "/pɔɪnt/", def: "a precise and specific location in space represented by a tiny dot", kr: "점", cn: "点 (diǎn)", jp: "点 (てん)", ex: "A <b>point</b> is an exact spot in space." },
+      { word: "line segment", phonetic: "/laɪn ˈsɛɡmənt/", def: "a straight portion of a line with two distinct endpoints", kr: "선분", cn: "线段 (xiàn duàn)", jp: "線分 (せんぶん)", ex: "A <b>line segment</b> has a beginning and an end." },
+      { word: "ray", phonetic: "/reɪ/", def: "a straight path that starts at one endpoint and continues infinitely in one direction", kr: "반직선", cn: "射线 (shè xiàn)", jp: "半直線 (はんちょくせん)", ex: "A <b>ray</b> starts at a point and goes on forever." },
+      { word: "parallel", phonetic: "/ˈpærəlɛl/", def: "straight lines that remain a constant distance apart and never meet", kr: "평행한", cn: "平行 (píng xíng)", jp: "平行 (へいこう)", ex: "<b>Parallel</b> lines never touch each other." },
+      { word: "perpendicular", phonetic: "/ˌpɜːrpənˈdɪkjʊlər/", def: "lines that intersect to form a perfect 90-degree angle", kr: "수직의", cn: "垂直 (chuí zhí)", jp: "垂直 (すいちょく)", ex: "<b>Perpendicular</b> lines make a perfect cross." },
+      { word: "vertex", phonetic: "/ˈvɜːrtɛks/", def: "the point of intersection where two or more lines or curves meet", kr: "꼭짓점", cn: "顶点 (dǐng diǎn)", jp: "頂点 (ちょうてん)", ex: "A <b>vertex</b> is the corner of a shape." },
+      { word: "right angle", phonetic: "/raɪt ˈæŋɡəl/", def: "an angle that measures exactly 90 degrees", kr: "직각", cn: "直角 (zhí jiǎo)", jp: "直角 (ちょっかく)", ex: "A <b>right angle</b> looks like the corner of a square." },
+      { word: "obtuse angle", phonetic: "/əbˈtjuːs ˈæŋɡəl/", def: "an angle that is greater than 90 degrees and less than 180 degrees", kr: "둔각", cn: "钝角 (dùn jiǎo)", jp: "鈍角 (どんかく)", ex: "An <b>obtuse angle</b> is wider than a right angle." },
+      { word: "straight angle", phonetic: "/streɪt ˈæŋɡəl/", def: "an angle that measures exactly 180 degrees and forms a straight line", kr: "평각", cn: "平角 (píng jiǎo)", jp: "平角 (へいかく)", ex: "A <b>straight angle</b> makes a perfectly flat line." },
+      { word: "vertical angles", phonetic: "/ˈvɜːrtɪkəl ˈæŋɡəlz/", def: "opposite angles formed by the intersection of two straight lines", kr: "맞꼭지각", cn: "对顶角 (duì dǐng jiǎo)", jp: "対頂角 (たいちょうかく)", ex: "<b>Vertical angles</b> are across from each other." },
+      { word: "supplementary angles", phonetic: "/ˌsʌplɪˈmɛntəri ˈæŋɡəlz/", def: "two angles whose sum equals exactly 180 degrees", kr: "보각", cn: "互补角 (hù bǔ jiǎo)", jp: "補角 (ほかく)", ex: "<b>Supplementary angles</b> add up to 180 degrees." },
+      { word: "polygon", phonetic: "/ˈpɒlɪɡɒn/", def: "a closed 2D shape with three or more straight sides", kr: "다각형", cn: "多边形 (duō biān xíng)", jp: "多角形 (たかくけい)", ex: "A triangle is a shape called a <b>polygon</b>." },
+      { word: "triangle", phonetic: "/ˈtraɪæŋɡəl/", def: "a polygon with exactly three sides and three angles", kr: "삼각형", cn: "三角形 (sān jiǎo xíng)", jp: "三角形 (さんかくけい)", ex: "A <b>triangle</b> has three sides." },
+      { word: "right triangle", phonetic: "/raɪt ˈtraɪæŋɡəl/", def: "a triangle that contains one right angle (90 degrees)", kr: "직각 삼각형", cn: "直角三角形 (zhí jiǎo sān jiǎo xíng)", jp: "直角三角形 (ちょっかくさんかくけい)", ex: "A <b>right triangle</b> has one 90-degree corner." },
+      { word: "obtuse triangle", phonetic: "/əbˈtjuːs ˈtraɪæŋɡəl/", def: "a triangle that contains one angle greater than 90 degrees", kr: "둔각 삼각형", cn: "钝角三角形 (dùn jiǎo sān jiǎo xíng)", jp: "鈍角三角形 (どんかくさんかくけい)", ex: "An <b>obtuse triangle</b> has one very wide corner." },
+      { word: "scalene triangle", phonetic: "/ˈskeɪliːn ˈtraɪæŋɡəl/", def: "a triangle where all three sides are of different lengths", kr: "부등변 삼각형", cn: "不等边三角形 (bù děng biān sān jiǎo xíng)", jp: "不等辺三角形 (ふとうへんさんかくけい)", ex: "A <b>scalene triangle</b> has sides of all different lengths." },
+      { word: "quadrilateral", phonetic: "/ˌkwɒdrɪˈlætərəl/", def: "a closed flat shape with exactly four straight sides", kr: "사각형", cn: "四边形 (sì biān xíng)", jp: "四角形 (しかくけい)", ex: "A square is a <b>quadrilateral</b> with four sides." },
+      { word: "parallelogram", phonetic: "/ˌpærəˈlɛləɡræm/", def: "a quadrilateral with two pairs of parallel opposite sides", kr: "평행사변형", cn: "平行四边形 (píng xíng sì biān xíng)", jp: "平行四辺形 (へいこうしへんけい)", ex: "A <b>parallelogram</b> has two pairs of parallel sides." },
+      { word: "rectangle", phonetic: "/ˈrɛktæŋɡəl/", def: "a quadrilateral with four right angles", kr: "직사각형", cn: "矩形 (jù xíng)", jp: "長方形 (ちょうほうけい)", ex: "A door is usually shaped like a <b>rectangle</b>." },
+      { word: "square", phonetic: "/skwɛər/", def: "a quadrilateral with four equal sides and four right angles", kr: "정사각형", cn: "正方形 (zhèng fāng xíng)", jp: "正方形 (せいほうけい)", ex: "A <b>square</b> has four equal sides." },
+      { word: "rhombus", phonetic: "/ˈrɒmbəs/", def: "a flat shape with four straight equal sides", kr: "마름모", cn: "菱形 (líng xíng)", jp: "ひし形 (ひしがた)", ex: "A <b>rhombus</b> looks like a tilted square." },
+      { word: "trapezoid", phonetic: "/ˈtræpɪzɔɪd/", def: "a quadrilateral with only one pair of parallel sides", kr: "사다리꼴", cn: "梯形 (tī xíng)", jp: "台形 (だいてい)", ex: "A <b>trapezoid</b> has only one pair of parallel sides." },
+      { word: "line of symmetry", phonetic: "/laɪn ɒv ˈsɪmɪtri/", def: "an imaginary line that splits a shape into two matching mirror halves", kr: "대칭축", cn: "对称轴 (duì chèn zhóu)", jp: "対称軸 (たいしょうじく)", ex: "A butterfly has a <b>line of symmetry</b> down the middle." },
+      { word: "circle", phonetic: "/ˈsɜːrkəl/", def: "a round flat shape whose boundary consists of points equidistant from the center", kr: "원", cn: "圆 (yuán)", jp: "円 (えん)", ex: "A coin is shaped like a <b>circle</b>." },
+      { word: "radius", phonetic: "/ˈreɪdiəs/", def: "a straight line segment from the center of a circle to its perimeter", kr: "반지름", cn: "半径 (bàn jìng)", jp: "半径 (はんけい)", ex: "The <b>radius</b> is half of the circle's width." },
+      { word: "diameter", phonetic: "/daɪˈæmɪtər/", def: "a straight line segment that passes through the center of a circle to connect opposite sides", kr: "지름", cn: "直径 (zhí jìng)", jp: "直径 (ちょっけい)", ex: "The <b>diameter</b> cuts straight across the whole circle." },
+      { word: "volume", phonetic: "/ˈvɒljuːm/", def: "the amount of 3D space enclosed within a solid figure or container", kr: "부피, 체적", cn: "体积 (tǐ jī)", jp: "体積 (たいせき)", ex: "<b>Volume</b> is how much space is inside a box." },
+      { word: "coordinate plane", phonetic: "/koʊˈɔːrdɪnət pleɪn/", def: "a flat surface formed by two intersecting number line axes (x and y)", kr: "좌표 평면", cn: "坐标平面 (zuò biāo píng miàn)", jp: "座標平面 (ざひょうへいめん)", ex: "We use a <b>coordinate plane</b> to plot points." },
+      { word: "ordered pair", phonetic: "/ˈɔːrdərd pɛər/", def: "a pair of coordinates (x, y) that locates an exact point on a grid", kr: "순서쌍", cn: "有序对 (yǒu xù duì)", jp: "順序対 (じゅんじょつい)", ex: "An <b>ordered pair</b> like (2, 3) tells us where to go." },
+      { word: "origin", phonetic: "/ˈɒrɪdʒɪn/", def: "the starting point on a coordinate plane where the x-axis and y-axis cross (0,0)", kr: "원점", cn: "原点 (yuán diǎn)", jp: "原点 (げんてん)", ex: "The <b>origin</b> is the point (0,0) on a graph." },
+      { word: "x-axis", phonetic: "/ˈɛks ˌæksɪs/", def: "the horizontal number line axis on a coordinate grid", kr: "x축", cn: "x轴 (x zhóu)", jp: "x軸 (えっくすじく)", ex: "The <b>x-axis</b> goes left and right." },
+      { word: "y-axis", phonetic: "/ˈwaɪ ˌæksɪs/", def: "the vertical number line axis on a coordinate grid", kr: "y축", cn: "y轴 (y zhóu)", jp: "y軸 (わいじく)", ex: "The <b>y-axis</b> goes up and down." },
+      { word: "3d shapes", phonetic: "/ˈθriː diː ʃeɪps/", def: "shapes that have length, width, and depth; they take up physical space", kr: "3차원 입체 도형", cn: "3D图形 (sān d tú xíng)", jp: "3D図形 (すりーでぃーずけい)", ex: "A ball and a box are <b>3d shapes</b>." },
+      { word: "cube", phonetic: "/kjuːb/", def: "a symmetrical 3D shape with six equal square faces", kr: "정육면체", cn: "立方体 (lì fāng tǐ)", jp: "立方体 (りっぽうたい)", ex: "A dice is shaped like a <b>cube</b>." },
+      { word: "sphere", phonetic: "/sfɪər/", def: "a perfectly round 3D solid figure where all surface points are equidistant from the center", kr: "구", cn: "球体 (qiú tǐ)", jp: "球 (きゅう)", ex: "A basketball is a perfectly round <b>sphere</b>." },
+      { word: "cylinder", phonetic: "/ˈsɪlɪndər/", def: "a 3D shape with straight parallel sides and two circular bases", kr: "원기둥", cn: "圆柱体 (yuán zhù tǐ)", jp: "円柱 (えんちゅう)", ex: "A soup can is a <b>cylinder</b>." },
+      { word: "cone", phonetic: "/koʊn/", def: "a 3D shape that tapers from a circular base to a point at the top", kr: "원뿔", cn: "圆锥体 (yuán zhuī tǐ)", jp: "円錐 (えんすい)", ex: "An ice cream <b>cone</b> has a pointy bottom." },
+      { word: "prism", phonetic: "/ˈprɪzəm/", def: "a 3D shape with two identical parallel bases and flat rectangular sides", kr: "기둥", cn: "棱柱 (léng zhù)", jp: "角柱 (かくちゅう)", ex: "A long box is a rectangular <b>prism</b>." },
+      { word: "pyramid", phonetic: "/ˈpɪrəmɪd/", def: "a 3D shape with a polygon base and triangular sides that meet at a point", kr: "뿔, 피라미드", cn: "金字塔 (jīn zì tǎ)", jp: "角錐 (かくすい)", ex: "A <b>pyramid</b> has a flat base and a pointy top." },
+      { word: "face", phonetic: "/feɪs/", def: "any flat individual surface of a 3D solid shape", kr: "면", cn: "面 (miàn)", jp: "面 (めん)", ex: "A cube has six flat <b>face</b>s." },
+      { word: "edge", phonetic: "/ɛdʒ/", def: "the boundary line segment where two flat faces of a 3D shape intersect", kr: "모서리", cn: "边 (biān)", jp: "辺 (へん)", ex: "An <b>edge</b> is where two flat faces meet." },
 
       // Models & Tools
-      { word: "tape diagram", phonetic: "/teɪp ˈdaɪəɡræm/", kr: "테이프 다이어그램", cn: "带状图 (dài zhuàng tú)", jp: "テープ図 (てーぷず)", ex: "We draw a <b>tape diagram</b> to solve the puzzle." },
-      { word: "bar diagram", phonetic: "/bɑːr ˈdaɪəɡræm/", kr: "막대 다이어그램", cn: "条形图 (tiáo xíng tú)", jp: "棒図 (ぼうず)", ex: "A <b>bar diagram</b> helps us see parts and a whole." },
-      { word: "area model", phonetic: "/ˈɛəriə ˈmɒdl/", kr: "넓이 모델", cn: "面积模型 (miàn jī mó xíng)", jp: "面積モデル (めんせきもでる)", ex: "We use an <b>area model</b> to multiply big numbers." },
-      { word: "array", phonetic: "/əˈreɪ/", kr: "배열", cn: "阵列 (zhèn liè)", jp: "配列 (はいれつ)", ex: "An <b>array</b> has neat rows and columns of dots." },
-      { word: "rectangular array", phonetic: "/rɛkˈtæŋɡjʊlər əˈreɪ/", kr: "직사각형 배열", cn: "矩形阵列 (jù xíng zhèn liè)", jp: "長方形配列 (ちょうほうけいはいれつ)", ex: "A carton of eggs is a <b>rectangular array</b>." },
-      { word: "rows", phonetic: "/roʊz/", kr: "행, 가로줄", cn: "行 (xíng)", jp: "行 (ぎょう)", ex: "The desks are arranged in straight <b>rows</b>." },
-      { word: "columns", phonetic: "/ˈkɒləmz/", kr: "열, 세로줄", cn: "列 (liè)", jp: "列 (れつ)", ex: "<b>Columns</b> go straight up and down." },
-      { word: "number bond", phonetic: "/ˈnʌmbər bɒnd/", kr: "수 가르기/모으기", cn: "数字键 (shù zì jiàn)", jp: "ナンバーボンド (なんばーぼんど)", ex: "A <b>number bond</b> shows how parts make a whole." },
-      { word: "protractor", phonetic: "/proʊˈtræktər/", kr: "각도기", cn: "量角器 (liáng jiǎo qì)", jp: "分度器 (ふんどき)", ex: "Use a <b>protractor</b> to measure the angle." },
-      { word: "ruler", phonetic: "/ˈruːlər/", kr: "자", cn: "尺子 (chǐ zi)", jp: "定規 (じょうぎ)", ex: "Use a <b>ruler</b> to draw a straight line." },
-      { word: "compass", phonetic: "/ˈkʌmpəs/", kr: "컴퍼스", cn: "圆规 (yuán guī)", jp: "コンパス (こんぱす)", ex: "A <b>compass</b> helps you draw a perfect circle." }
+      { word: "tape diagram", phonetic: "/teɪp ˈdaɪəɡræm/", def: "a visual model resembling a piece of tape used to show number relationships", kr: "테이프 다이어그램", cn: "带状图 (dài zhuàng tú)", jp: "テープ図 (てーぷず)", ex: "We draw a <b>tape diagram</b> to solve the puzzle." },
+      { word: "bar diagram", phonetic: "/bɑːr ˈdaɪəɡræm/", def: "a diagram that uses rectangular bars to show mathematical parts and wholes", kr: "막대 다이어그램", cn: "条形图 (tiáo xíng tú)", jp: "棒図 (ぼうず)", ex: "A <b>bar diagram</b> helps us see parts and a whole." },
+      { word: "area model", phonetic: "/ˈɛəriə ˈmɒdl/", def: "a rectangular visual tool used to demonstrate multiplication by finding the area of smaller boxes", kr: "넓이 모델", cn: "面积模型 (miàn jī mó xíng)", jp: "面積モデル (めんせきもでる)", ex: "We use an <b>area model</b> to multiply big numbers." },
+      { word: "array", phonetic: "/əˈreɪ/", def: "an arrangement of objects, pictures, or numbers in neat columns and rows", kr: "배열", cn: "阵列 (zhèn liè)", jp: "配列 (はいれつ)", ex: "An <b>array</b> has neat rows and columns of dots." },
+      { word: "rectangular array", phonetic: "/rɛkˈtæŋɡjʊlər əˈreɪ/", def: "an array arranged in a rectangle shape with uniform rows and columns", kr: "직사각형 배열", cn: "矩形阵列 (jù xíng zhèn liè)", jp: "長方形配列 (ちょうほうけいはいれつ)", ex: "A carton of eggs is a <b>rectangular array</b>." },
+      { word: "rows", phonetic: "/roʊz/", def: "lines of objects that go horizontally across from left to right", kr: "행, 가로줄", cn: "行 (xíng)", jp: "行 (ぎょう)", ex: "The desks are arranged in straight <b>rows</b>." },
+      { word: "columns", phonetic: "/ˈkɒləmz/", def: "lines of objects that go vertically straight up and down", kr: "열, 세로줄", cn: "列 (liè)", jp: "列 (れつ)", ex: "<b>Columns</b> go straight up and down." },
+      { word: "number bond", phonetic: "/ˈnʌmbər bɒnd/", def: "a simple map of circles showing how a whole number is split into parts", kr: "수 가르기/모으기", cn: "数字键 (shù zì jiàn)", jp: "ナンバーボンド (なんばーぼんど)", ex: "A <b>number bond</b> shows how parts make a whole." },
+      { word: "protractor", phonetic: "/proʊˈtræktər/", def: "an instrument shaped like a half-circle used to measure angle degrees", kr: "각도기", cn: "量角器 (liáng jiǎo qì)", jp: "分度器 (ふんどき)", ex: "Use a <b>protractor</b> to measure the angle." },
+      { word: "ruler", phonetic: "/ˈruːlər/", def: "a straight tool with markings used to measure length or draw straight lines", kr: "자", cn: "尺子 (chǐ zi)", jp: "定規 (じょうぎ)", ex: "Use a <b>ruler</b> to draw a straight line." },
+      { word: "compass", phonetic: "/ˈkʌmpəs/", def: "a V-shaped tool with a pencil used to draw perfect circles", kr: "컴퍼스", cn: "圆规 (yuán guī)", jp: "コンパス (こんぱす)", ex: "A <b>compass</b> helps you draw a perfect circle." }
     ];
 
     function App() {
@@ -350,9 +377,17 @@
               </div>
             ) : (
               // BACK
-              <div className="absolute inset-0 bg-white rounded-3xl shadow-md border border-slate-200 flex flex-col justify-center p-6 sm:p-10 text-left">
+              <div className="absolute inset-0 bg-white rounded-3xl shadow-md border border-slate-200 flex flex-col p-6 sm:p-10 text-left justify-between">
                 
-                <div className="flex flex-col gap-5 mb-6">
+                {/* English Definition Box at the top of Card Back */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-left">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-1">English Definition</span>
+                  <p className="text-base font-semibold text-slate-700 leading-snug">
+                    {currentWord.def}
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-4 my-2">
                   {/* Korean */}
                   <div className="flex items-center gap-4">
                     <span className="px-3 py-1 bg-blue-100 text-blue-700 font-bold rounded text-xs w-10 text-center">KR</span>
@@ -372,7 +407,7 @@
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-slate-200 my-4"></div>
+                <div className="w-full h-px bg-slate-200 my-2"></div>
                 
                 {/* Example Sentence */}
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
@@ -383,7 +418,7 @@
                   />
                 </div>
                 
-                <div className="absolute bottom-6 left-0 right-0 text-center text-slate-400 text-sm font-semibold">
+                <div className="w-full text-center text-slate-400 text-sm font-semibold mt-2">
                   Click to flip back
                 </div>
               </div>
